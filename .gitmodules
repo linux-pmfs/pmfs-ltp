@@ -1,0 +1,3 @@
+[submodule "ltp"]
+	path = ltp
+	url = ssh://git@github.com/linux-pmfs/ltp.git
