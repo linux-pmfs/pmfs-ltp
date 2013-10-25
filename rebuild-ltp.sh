@@ -35,6 +35,20 @@ cur_dir=$PWD
 
 [ ! -d $src_dir ] && echo "Source directory $src_dir not present" && exit 1
 
+git submodule status | grep -q "^-"
+if [[ $? == 0 ]]; then
+	echo "Updating submodules"
+
+	git remote -v  | grep -q 'origin.*https'
+	if [[ $? == 0 ]]; then
+		echo "Using https for submodules"
+		sed -i 's#ssh://git@#https://#' .gitmodules
+	fi
+
+	git submodule init
+	git submodule update
+fi
+
 check_packages()
 {
 	local plist="bison byacc flex make autoconf automake m4 libaio libaio-devel"
